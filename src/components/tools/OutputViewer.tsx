@@ -1,29 +1,44 @@
 'use client';
 
-import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { ShortsGrid } from '@/components/previews/ShortsGrid';
+import { ThreadPreview } from '@/components/previews/ThreadPreview';
+import { BlogPreview } from '@/components/previews/BlogPreview';
+import { NewsletterPreview } from '@/components/previews/NewsletterPreview';
+import { CarouselPlayer } from '@/components/previews/CarouselPlayer';
+import { CalendarGrid } from '@/components/previews/CalendarGrid';
+import type { ToolId } from '@/types';
+import type { ParsedOutput } from '../../../convex/lib/parsers';
 
 interface OutputViewerProps {
-  content: string;
+  rawContent: string;
+  toolId: ToolId;
   toolName: string;
 }
 
-export function OutputViewer({ content, toolName }: OutputViewerProps) {
-  const [copied, setCopied] = useState(false);
+function parseContent(rawContent: string): { raw: string; structured: ParsedOutput | null } {
+  try {
+    const parsed = JSON.parse(rawContent);
+    return { raw: parsed.raw ?? rawContent, structured: parsed.structured ?? null };
+  } catch {
+    return { raw: rawContent, structured: null };
+  }
+}
 
-  async function handleCopy() {
-    await navigator.clipboard.writeText(content);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+export function OutputViewer({ rawContent, toolId, toolName }: OutputViewerProps) {
+  const { raw, structured } = parseContent(rawContent);
+
+  function copyAll() {
+    navigator.clipboard.writeText(raw);
   }
 
-  function handleDownload() {
-    const blob = new Blob([content], { type: 'text/plain' });
+  function downloadRaw() {
+    const blob = new Blob([raw], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${toolName.toLowerCase().replace(/\s+/g, '-')}-output.txt`;
+    a.download = `${toolName.toLowerCase().replace(/\s+/g, '-')}.txt`;
     a.click();
     URL.revokeObjectURL(url);
   }
@@ -31,21 +46,48 @@ export function OutputViewer({ content, toolName }: OutputViewerProps) {
   return (
     <Card className="mt-6">
       <CardHeader className="flex flex-row items-center justify-between pb-3">
-        <CardTitle className="text-base">Generated Output</CardTitle>
+        <CardTitle className="text-base">✅ Generated Output</CardTitle>
         <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={handleCopy}>
-            {copied ? '✓ Copied!' : '📋 Copy'}
-          </Button>
-          <Button variant="outline" size="sm" onClick={handleDownload}>
-            ⬇ Download
-          </Button>
+          <Button variant="outline" size="sm" onClick={copyAll}>📋 Copy Raw</Button>
+          <Button variant="outline" size="sm" onClick={downloadRaw}>⬇ Download</Button>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="bg-muted/50 rounded-lg p-4 whitespace-pre-wrap text-sm font-mono leading-relaxed max-h-[600px] overflow-y-auto">
-          {content}
-        </div>
+        {structured ? (
+          <StructuredPreview toolId={toolId} structured={structured} onCopyAll={copyAll} />
+        ) : (
+          <div className="bg-muted/50 rounded-lg p-4 whitespace-pre-wrap text-sm font-mono leading-relaxed max-h-[600px] overflow-y-auto">
+            {raw}
+          </div>
+        )}
       </CardContent>
     </Card>
   );
+}
+
+function StructuredPreview({
+  toolId,
+  structured,
+  onCopyAll,
+}: {
+  toolId: ToolId;
+  structured: ParsedOutput;
+  onCopyAll: () => void;
+}) {
+  switch (toolId) {
+    case 'shorts':
+      return <ShortsGrid data={structured as never} onCopyAll={onCopyAll} />;
+    case 'thread':
+      return <ThreadPreview data={structured as never} onCopyAll={onCopyAll} />;
+    case 'blog':
+      return <BlogPreview data={structured as never} onCopyAll={onCopyAll} />;
+    case 'newsletter':
+      return <NewsletterPreview data={structured as never} onCopyAll={onCopyAll} />;
+    case 'carousel':
+      return <CarouselPlayer data={structured as never} onCopyAll={onCopyAll} />;
+    case 'calendar':
+      return <CalendarGrid data={structured as never} onCopyAll={onCopyAll} />;
+    default:
+      return null;
+  }
 }

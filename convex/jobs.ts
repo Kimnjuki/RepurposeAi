@@ -24,7 +24,6 @@ export const enqueueJob = mutation({
     });
 
     await ctx.scheduler.runAfter(0, api.jobActions.processJob, { jobId });
-
     return jobId;
   },
 });
@@ -57,9 +56,19 @@ export const getUserJobs = query({
 });
 
 export const updateJobStatus = internalMutation({
-  args: { jobId: v.id('jobs'), status: v.string() },
-  handler: async (ctx, { jobId, status }) => {
-    await ctx.db.patch(jobId, { status });
+  args: {
+    jobId: v.id('jobs'),
+    status: v.string(),
+    steps: v.optional(v.array(v.string())),
+    currentStep: v.optional(v.number()),
+    errorMessage: v.optional(v.string()),
+  },
+  handler: async (ctx, { jobId, status, steps, currentStep, errorMessage }) => {
+    const updates: Record<string, unknown> = { status };
+    if (steps !== undefined) updates.steps = steps;
+    if (currentStep !== undefined) updates.currentStep = currentStep;
+    if (errorMessage !== undefined) updates.errorMessage = errorMessage;
+    await ctx.db.patch(jobId, updates);
   },
 });
 

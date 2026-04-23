@@ -33,6 +33,9 @@ export default defineSchema({
     input: v.string(),
     outputId: v.optional(v.id('outputs')),
     retries: v.number(),
+    steps: v.optional(v.array(v.string())),
+    currentStep: v.optional(v.number()),
+    errorMessage: v.optional(v.string()),
   }).index('by_user', ['userId']).index('by_status', ['status']),
 
   subscriptions: defineTable({

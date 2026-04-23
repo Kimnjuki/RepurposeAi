@@ -7,7 +7,7 @@ import { TOOLS } from '@/lib/constants';
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: '🏠' },
-  { href: '/dashboard/history', label: 'History', icon: '📋' },
+  { href: '/dashboard/projects', label: 'Projects', icon: '📂' },
   { href: '/dashboard/settings', label: 'Settings', icon: '⚙️' },
 ];
 

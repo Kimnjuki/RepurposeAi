@@ -27,3 +27,10 @@ export const getUserProjects = query({
       .take(50);
   },
 });
+
+export const getProject = query({
+  args: { projectId: v.id('projects') },
+  handler: async (ctx, { projectId }) => {
+    return ctx.db.get(projectId);
+  },
+});

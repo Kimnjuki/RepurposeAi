@@ -31,3 +31,13 @@ export const getUserOutputs = query({
       .take(50);
   },
 });
+
+export const getOutputsByProject = query({
+  args: { projectId: v.id('projects') },
+  handler: async (ctx, { projectId }) => {
+    return ctx.db
+      .query('outputs')
+      .filter((q) => q.eq(q.field('projectId'), projectId))
+      .collect();
+  },
+});

@@ -30,7 +30,7 @@ export const TOOLS: Tool[] = [
     name: 'Blog Post',
     description: 'Generate SEO-optimized blog posts 1200-1500 words with FAQs',
     icon: '📝',
-    credits: 5,
+    credits: 3,
     locked: true,
   },
   {
@@ -52,16 +52,16 @@ export const TOOLS: Tool[] = [
 ];
 
 export const PLANS = {
-  free: { name: 'Free', credits: 10, price: 0 },
-  pro: { name: 'Pro', credits: 100, price: 29 },
-  enterprise: { name: 'Enterprise', credits: 500, price: 99 },
+  free: { name: 'Free', credits: 3, price: 0 },
+  pro: { name: 'Pro', credits: 50, price: 9.99 },
+  lifetime: { name: 'Lifetime', credits: 9999, price: 49 },
 };
 
 export const CREDIT_COSTS: Record<string, number> = {
   shorts: 2,
   thread: 1,
   newsletter: 2,
-  blog: 5,
+  blog: 3,
   carousel: 2,
   calendar: 3,
 };

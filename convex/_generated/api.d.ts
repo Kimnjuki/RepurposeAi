@@ -12,6 +12,7 @@ import type * as auth from "../auth.js";
 import type * as constants from "../constants.js";
 import type * as jobActions from "../jobActions.js";
 import type * as jobs from "../jobs.js";
+import type * as lib_parsers from "../lib/parsers.js";
 import type * as outputs from "../outputs.js";
 import type * as projects from "../projects.js";
 import type * as subscriptions from "../subscriptions.js";
@@ -28,6 +29,7 @@ declare const fullApi: ApiFromModules<{
   constants: typeof constants;
   jobActions: typeof jobActions;
   jobs: typeof jobs;
+  "lib/parsers": typeof lib_parsers;
   outputs: typeof outputs;
   projects: typeof projects;
   subscriptions: typeof subscriptions;

@@ -1,5 +1,5 @@
 export const PLAN_CREDITS: Record<string, number> = {
-  free: 10,
-  pro: 100,
-  enterprise: 500,
+  free: 3,
+  pro: 50,
+  lifetime: 9999,
 };

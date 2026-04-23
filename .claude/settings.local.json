@@ -1,7 +1,28 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-git)"
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-git)",
+      "Bash(npx shadcn@latest init --defaults)",
+      "Bash(npx shadcn@latest add card badge dialog input label textarea separator toast)",
+      "Bash(npx shadcn@latest add card badge dialog input label textarea separator sonner)",
+      "Bash(npm install *)",
+      "Bash(npx convex *)",
+      "Bash(npx tsc *)",
+      "Bash(node -e \"const s = require\\('stripe'\\); console.log\\(Object.keys\\(s.prototype || {}\\).slice\\(0,5\\)\\)\")",
+      "Bash(npm list *)",
+      "Bash(node -e \"const Stripe = require\\('stripe'\\); const s = new Stripe\\('sk_test_dummy'\\); console.log\\(s.getClientUserAgent ? 'ok' : 'no'\\)\")",
+      "Bash(node -e \"const s = require\\('./node_modules/stripe/cjs/stripe'\\); console.log\\(s.LATEST_API_VERSION || 'not found'\\)\")",
+      "Bash(npm run *)",
+      "Bash(CONVEX_DEPLOY_KEY=\"prod:modest-manatee-89|eyJ2MiI6Ijg1YjkzZDQ4NzdiNTQ4MjI4ZTVkNjZiMzA4Y2RiOGJiIn0=\" npx convex deploy)",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "Bash(gh auth *)",
+      "Bash(winget install *)",
+      "Bash(export PATH=\"$PATH:/c/Program Files/GitHub CLI\")",
+      "Bash(gh --version)",
+      "Bash(git remote *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
     ]
   }
 }

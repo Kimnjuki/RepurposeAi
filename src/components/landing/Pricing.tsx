@@ -8,32 +8,38 @@ const plans = [
   {
     name: 'Free',
     price: 0,
-    credits: 10,
-    description: 'Perfect for trying out RepurposeAI',
-    features: ['10 credits on signup', 'Shorts Generator', 'Twitter Thread', 'Newsletter Tool', 'Standard speed'],
+    billing: '',
+    credits: 3,
+    description: 'Try RepurposeAI with no commitment',
+    features: ['3 credits on signup', 'Shorts Generator', 'Twitter Thread', 'Newsletter Tool', 'Standard speed'],
     cta: 'Get Started Free',
     href: '/register',
     highlighted: false,
+    badge: null,
   },
   {
     name: 'Pro',
-    price: 29,
-    credits: 100,
+    price: 9.99,
+    billing: '/month',
+    credits: 50,
     description: 'For creators who publish consistently',
-    features: ['100 credits/month', 'All 6 AI tools', 'Blog Post Generator', 'LinkedIn Carousel', 'Content Calendar', 'Priority speed'],
+    features: ['50 credits/month', 'All 6 AI tools', 'Blog Post Generator', 'LinkedIn Carousel', 'Content Calendar', 'Priority speed', 'CSV & HTML exports'],
     cta: 'Start Pro',
     href: '/register?plan=pro',
     highlighted: true,
+    badge: 'Most Popular',
   },
   {
-    name: 'Enterprise',
-    price: 99,
-    credits: 500,
-    description: 'For teams and agencies at scale',
-    features: ['500 credits/month', 'All Pro features', 'Team members', 'API access', 'Custom prompts', 'Priority support'],
-    cta: 'Start Enterprise',
-    href: '/register?plan=enterprise',
+    name: 'Lifetime',
+    price: 49,
+    billing: ' one-time',
+    credits: 9999,
+    description: 'Early adopter deal — pay once, use forever',
+    features: ['Unlimited credits', 'All 6 AI tools', 'All export formats', 'Priority support', 'All future features', '🔥 Limited spots'],
+    cta: 'Get Lifetime Access',
+    href: '/register?plan=lifetime',
     highlighted: false,
+    badge: '🔥 Early Adopter',
   },
 ];
 
@@ -43,32 +49,31 @@ export function Pricing() {
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4">Simple, Transparent Pricing</h2>
-          <p className="text-muted-foreground text-lg">Pay for what you use. No hidden fees.</p>
+          <p className="text-muted-foreground text-lg">Start free. Upgrade when you're ready.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
           {plans.map((plan) => (
             <Card
               key={plan.name}
               className={`rounded-2xl relative ${plan.highlighted ? 'border-primary shadow-lg scale-105' : ''}`}
             >
-              {plan.highlighted && (
-                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2">Most Popular</Badge>
+              {plan.badge && (
+                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                  {plan.badge}
+                </Badge>
               )}
               <CardHeader>
                 <CardTitle className="text-xl">{plan.name}</CardTitle>
                 <div className="flex items-baseline gap-1 mt-2">
                   <span className="text-4xl font-bold">${plan.price}</span>
-                  {plan.price > 0 && <span className="text-muted-foreground">/month</span>}
+                  <span className="text-muted-foreground text-sm">{plan.billing}</span>
                 </div>
                 <p className="text-sm text-muted-foreground">{plan.description}</p>
               </CardHeader>
               <CardContent>
                 <Link href={plan.href}>
-                  <Button
-                    className="w-full mb-6"
-                    variant={plan.highlighted ? 'default' : 'outline'}
-                  >
+                  <Button className="w-full mb-6" variant={plan.highlighted ? 'default' : 'outline'}>
                     {plan.cta}
                   </Button>
                 </Link>

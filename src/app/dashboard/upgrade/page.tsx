@@ -9,19 +9,23 @@ import { Separator } from '@/components/ui/separator';
 const plans = [
   {
     name: 'Pro',
-    price: 29,
-    credits: 100,
+    price: 9.99,
+    billing: '/month',
+    credits: 50,
     priceId: 'pro',
-    features: ['100 credits/month', 'All 6 AI tools', 'Blog Post Generator', 'LinkedIn Carousel', 'Content Calendar', 'Priority speed'],
-    highlighted: true,
+    features: ['50 credits/month', 'All 6 AI tools', 'Blog Post Generator', 'LinkedIn Carousel', 'Content Calendar', 'CSV & HTML exports', 'Priority speed'],
+    highlighted: false,
+    badge: 'Most Popular',
   },
   {
-    name: 'Enterprise',
-    price: 99,
-    credits: 500,
-    priceId: 'enterprise',
-    features: ['500 credits/month', 'All Pro features', 'Team members', 'API access', 'Custom prompts', 'Priority support'],
-    highlighted: false,
+    name: 'Lifetime',
+    price: 49,
+    billing: ' one-time',
+    credits: 9999,
+    priceId: 'lifetime',
+    features: ['Unlimited credits forever', 'All 6 AI tools', 'All export formats', 'Priority support', 'All future features', '🔥 Limited spots remaining'],
+    highlighted: true,
+    badge: '🔥 Best Value',
   },
 ];
 
@@ -56,19 +60,17 @@ export default function UpgradePage() {
         <p className="text-muted-foreground mt-1">Unlock all tools and get more credits</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
         {plans.map((plan) => (
           <Card key={plan.name} className={`rounded-2xl relative ${plan.highlighted ? 'border-primary shadow-lg' : ''}`}>
-            {plan.highlighted && (
-              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2">Recommended</Badge>
-            )}
+            <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap">{plan.badge}</Badge>
             <CardHeader>
               <CardTitle className="text-xl">{plan.name}</CardTitle>
               <div className="flex items-baseline gap-1 mt-2">
                 <span className="text-4xl font-bold">${plan.price}</span>
-                <span className="text-muted-foreground">/month</span>
+                <span className="text-muted-foreground text-sm">{plan.billing}</span>
               </div>
-              <p className="text-sm text-muted-foreground">{plan.credits} credits/month</p>
+              <p className="text-sm text-muted-foreground">{plan.credits === 9999 ? 'Unlimited' : plan.credits} credits</p>
             </CardHeader>
             <CardContent>
               <Button
@@ -92,6 +94,10 @@ export default function UpgradePage() {
           </Card>
         ))}
       </div>
+
+      <p className="text-center text-xs text-muted-foreground mt-8">
+        Secure payment via Stripe. Cancel anytime for Pro. Lifetime is a one-time purchase.
+      </p>
     </div>
   );
 }
